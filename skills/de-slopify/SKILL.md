@@ -5,6 +5,7 @@ description: Remove AI writing patterns from prose to make it sound authenticall
   writing that should not read like LLM output. Trigger on "de-slop", "clean up this
   writing", "make this sound human", "remove AI patterns", or "this reads like AI wrote it".
 license: MIT
+effort: low
 allowed-tools: Read Edit Write Grep
 ---
 
