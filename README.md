@@ -1,56 +1,58 @@
-# De-Slopify
+# De Slopify
 
-Systematically remove telltale AI writing patterns from prose. Works line-by-line through the text, not via regex or batch replacement.
+Remove AI writing patterns from prose to make it sound authentically human. Use when cleaning up AI-generated text, documentation, blog posts, READMEs, or any writing that should not read like LLM output. Trigger on "de-slop", "clean up this writing", "make this sound human", "remove AI patterns", or "this reads like AI wrote it".
 
-## Why Use This?
+## Skill
 
-LLMs produce text with statistically detectable patterns: overused vocabulary, predictable structure, filler phrases, and rhetorical tics. These patterns erode credibility and are increasingly recognizable. This skill fights against default generation tendencies.
+This repository packages one portable agent skill:
 
-## Installation
+- `de-slopify` - Remove AI writing patterns from prose to make it sound authentically human. Use when cleaning up AI-generated text, documentation, blog posts, READMEs, or any writing that should not read like LLM output. Trigger on "de-slop", "clean up this writing", "make this sound human", "remove AI patterns", or "this reads like AI wrote it".
 
-### Manual Installation
+The canonical skill body lives at `skills/de-slopify/SKILL.md`. Keep behavior changes there; keep this README focused on installation and packaging.
+
+## Install
+
+Clone the repository, then run the installer:
 
 ```bash
-cd ~/.claude/skills/
-ln -s ~/Developer/Personal/skill-de-slopify/skills/de-slopify de-slopify
+git clone https://github.com/cbzehner/skill-de-slopify.git
+cd skill-de-slopify
+./install.sh all
 ```
 
-## Usage
+Install targets:
 
-```
-/de-slopify                # Clean up the most recently edited file
-/de-slopify README.md      # Target a specific file
-```
+- `./install.sh claude` -> `~/.claude/skills/de-slopify`
+- `./install.sh codex` -> `~/.codex/skills/de-slopify`
+- `./install.sh agents` -> `~/.agents/skills/de-slopify` for generic agent harnesses such as Pi/Hermes-style setups
+- `./install.sh opencode` -> `~/.config/opencode/skills/de-slopify`
+- `./install.sh all --copy` copies files instead of symlinking
 
-### When to Use
+Manual installation is just a symlink or copy from `skills/de-slopify` into your agent's skills directory.
 
-- Cleaning up AI-generated text, documentation, blog posts, READMEs
-- Any writing that should not read like LLM output
-- Trigger on "de-slop", "clean up this writing", "make this sound human", "remove AI patterns"
+## Compatibility
 
-## What It Catches
+This repo uses the common `skills/<name>/SKILL.md` layout so agents that understand file-based skills can load it directly. Host-specific metadata is included where useful:
 
-- **Kill-on-sight words** — "delve", "utilize", "leverage", "facilitate", etc.
-- **Filler phrases** — "It's worth noting that...", "Let's dive into...", etc.
-- **Structural patterns** — "Not just X, it's Y", em dash overload, transition word chains
-- **Punctuation tells** — semicolon avoidance, colon overuse, hedging chains
+- Claude Code: `.claude-plugin/plugin.json` and direct `~/.claude/skills` install
+- Codex CLI: `.codex-plugin/plugin.json` with `skills: "./skills/"` and direct `~/.codex/skills` install
+- Other agents: direct install to the agent's skills directory; unsupported frontmatter fields can be ignored
 
-See `skills/de-slopify/references/pattern-checklist.md` for the full list.
+Some skills mention optional host tools such as `Task`, `Agent`, `Skill`, MCP tools, or browser automation CLIs. On hosts that do not provide those tools, adapt to equivalent local capabilities and keep the same workflow intent.
 
-## Files
+## Public Safety
 
-```
-skill-de-slopify/
-├── .claude-plugin/
-│   ├── plugin.json         # Plugin metadata
-│   └── marketplace.json    # Marketplace listing
-├── skills/
-│   └── de-slopify/
-│       ├── SKILL.md        # Skill definition
-│       └── references/
-│           └── pattern-checklist.md  # Kill-on-sight words, filler, patterns
-├── README.md               # This file
-└── LICENSE                 # MIT
+These repositories are public. Do not commit organization-specific instructions, private repository names, secrets, tokens, cookies, raw session logs, customer data, or machine-local paths. Use environment variables and generic paths in examples.
+
+## Repository Layout
+
+```text
+.claude-plugin/plugin.json   # Claude plugin metadata
+.codex-plugin/plugin.json    # Codex plugin metadata
+install.sh                   # Symlink/copy installer for common agent skill dirs
+skills/de-slopify/SKILL.md
+README.md
+LICENSE
 ```
 
 ## License
